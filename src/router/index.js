@@ -1,25 +1,28 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-
-const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: HomeView
-  },
-  {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
-]
+import {
+  createRouter,
+  // createWebHashHistory,
+  createWebHistory,
+} from 'vue-router'
+import routes from './router'
+import store from '../store/index.js'
 
 const router = createRouter({
-  history: createWebHashHistory(),
-  routes
+  history: createWebHistory(),
+  routes,
+})
+
+// 路由守卫，如果用户未登录就想访问其他页面，就强制跳转至登录页
+router.beforeEach((to, from, next) => {
+  const uInfo = store.state.user.userInfo
+  if (to.path !== '/login' && !uInfo.username) {
+    next('/login')
+  } else {
+    next()
+  }
+
+  console.log('来自', from.path)
+  console.log('前往', to.path)
+  console.log('store.state.user', uInfo)
 })
 
 export default router

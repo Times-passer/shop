@@ -1,14 +1,12 @@
 import { createStore } from 'vuex'
+import number from './modules/numModule.js'
+import user from './modules/userModule.js'
+import perf from './modules/Performance.js'
 
 export default createStore({
-  state: {
-  },
-  getters: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
   modules: {
-  }
+    number,
+    user,
+    perf,
+  },
 })

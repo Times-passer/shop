@@ -1,18 +1,27 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div>{{ obj }}</div>
+    <button @click="handleClick">按钮</button>
+    <div>{{ n }}</div>
   </div>
 </template>
 
-<script>
+<script setup>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import { reactive } from 'vue'
 
-export default {
-  name: 'HomeView',
-  components: {
-    HelloWorld
-  }
+let obj = reactive({
+  name: 'nb',
+  age: 18
+})
+
+// 具有响应性：
+let n = obj;
+n.age = 100
+
+const handleClick = () => {
+  console.log('ok');
 }
+
 </script>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="shortcut icon" href="#" />
+    <!-- 解决浏览器会提示favicon.ico文件不存在404问题 -->
+    <style>
+      body {
+        background: rgb(246, 242, 136) url(../src/assets/logo.png) no-repeat
+          fixed center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>这里是demo</h1>
+    <a href="index.html">跳转至index.html</a>
+    <script type="module">
+      console.group('PerformanceObserver')
+      // FP
+      new PerformanceObserver((entryList) => {
+        const [entry] = entryList.getEntriesByName('first-paint')
+        console.log('FP', entry)
+        console.log('FP', entry.startTime)
+      }).observe({ type: 'paint', buffered: true })
+      // FCP
+      new PerformanceObserver((entryList) => {
+        const [entry] = entryList.getEntriesByName('first-contentful-paint')
+        console.log('FCP', entry)
+        console.log('FCP', entry.startTime)
+      }).observe({ type: 'paint', buffered: true })
+      // DOM Ready 和 DNS Time
+      new PerformanceObserver((entryList) => {
+        const [entry] = entryList.getEntries()
+        console.log('PerformanceNavigationTiming', entry)
+        console.log(
+          'DOM Ready',
+          entry.domContentLoadedEventEnd - entry.fetchStart
+        )
+        console.log('DNS Time', entry.domainLookupEnd - entry.domainLookupStart)
+      }).observe({ type: 'navigation' })
+      console.groupEnd()
+    </script>
+  </body>
+</html>
